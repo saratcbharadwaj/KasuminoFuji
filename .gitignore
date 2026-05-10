@@ -1,0 +1,37 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Logs
+logs/
+
+# Model checkpoints and trained weights
+models/
+models/checkpoints/
+
+# Serialized/cache files
+*.pkl
+*.npz
+
+# Archives
+*.tar.gz
+*.zip
+
+# Large datasets
+data/
+
+# Dataset / export formats
+*.csv
+*.json
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Virtual environments
+venv/
+.env/
+.venv/
+
+# OS files
+.DS_Store
+Thumbs.db
