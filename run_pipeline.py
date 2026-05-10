@@ -5,6 +5,14 @@ import os
 import sys
 
 import numpy as np
+
+# Patching NumPy 2.0 compatibility issues for TensorBoard
+if not hasattr(np, 'bool8'):
+    np.bool8 = np.bool_
+if not hasattr(np, 'string_'):
+    np.string_ = np.bytes_
+if not hasattr(np, 'unicode_'):
+    np.unicode_ = np.str_
 from stable_baselines3 import PPO
 
 from configs.config import MODELS_DIR, LOGS_DIR, DATASET_CSV
