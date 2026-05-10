@@ -26,12 +26,12 @@ READ_NEXT       = 0
 PREDICT_VULN    = 1
 PREDICT_SAFE    = 2
 
-# ── Reward shaping (Eq. 1 from report) ────────────────────────────────────────
-LAMBDA_STEP     = 0.10     # per-step cost
-ALPHA_SAFE      = 10.0      # reward: correct safe prediction
-ALPHA_VULN      = 10.0   # reward: correct vuln prediction
-BETA_SAFE       = 10.0      # penalty: safe predicted as vuln (FP)
-BETA_VULN       = 10.0     # penalty: vuln predicted as safe (FN)
+# ── Reward shaping (Finalized Light PPO) ──────────────────────────────────────
+LAMBDA_STEP     = 0.12     # per-step cost
+ALPHA_SAFE      = 7.0      # reward: correct safe prediction
+ALPHA_VULN      = 0.5      # reward: correct vuln prediction
+BETA_SAFE       = 10.0     # penalty: safe predicted as vuln (FP)
+BETA_VULN       = 4.0      # penalty: vuln predicted as safe (FN)
 
 # ── Training ───────────────────────────────────────────────────────────────────
 TRAIN_SAFE_N    = 1000       # balanced subset size per class
@@ -44,7 +44,7 @@ PPO_PARAMS = dict(
     gae_lambda          = 0.95,
     clip_range          = 0.2,
     batch_size          = 64,
-    ent_coef            = 0.2,
+    ent_coef            = 0.05,    # reduced for exploitation
     vf_coef             = 0.5,
     n_steps             = 2048,
     verbose             = 1,
