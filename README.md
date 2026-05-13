@@ -1,10 +1,10 @@
 # Sequential Early-Exit Vulnerability Inspection for Smart Contracts via RL
 
-[cite_start]This repository contains the implementation of a Reinforcement Learning (RL) framework that reframes smart contract auditing as a **Sequential Early-Exit Inspection** problem[cite: 1, 14]. [cite_start]By modeling the inspection as a Markov Decision Process (MDP), the agent learns to optimize the trade-off between classification accuracy and computational cost[cite: 4, 15, 18].
+This repository contains the implementation of a Reinforcement Learning (RL) framework that reframes smart contract auditing as a **Sequential Early-Exit Inspection** problem[cite: 1, 14]. By modeling the inspection as a Markov Decision Process (MDP), the agent learns to optimize the trade-off between classification accuracy and computational cost[cite: 4, 15, 18].
 
 ## 🎯 Project Overview
 
-[cite_start]Traditional holistic analysis struggles with the extreme class imbalance of production datasets like **SmartBugs Wild**, where safe contracts constitute only $\sim6.0\%$ of the corpus[cite: 3, 13]. [cite_start]This project utilizes a Proximal Policy Optimization (PPO) agent that learns to prioritize high-risk code sections and terminate inspection once confidence thresholds are met, mimicking human auditor behavior[cite: 5, 16, 17].
+Traditional holistic analysis struggles with the extreme class imbalance of production datasets like **SmartBugs Wild**, where safe contracts constitute only $\sim6.0\%$ of the corpus[cite: 3, 13].This project utilizes a Proximal Policy Optimization (PPO) agent that learns to prioritize high-risk code sections and terminate inspection once confidence thresholds are met, mimicking human auditor behavior[cite: 5, 16, 17].
 
 ---
 
@@ -57,23 +57,21 @@ The inspection process is modeled as a finite-horizon MDP $(\mathcal{S}, \mathca
   A $7$-dimensional vector $s_t = [F_t, \frac{t}{T_{max}}]$, where $F_t$ is the cumulative logical OR of 6 static flags.
 
 - **Action Space ($\mathcal{A}$):**  
-  $\{0, 1, 2\}$ for $\{\texttt{READ\_NEXT}, \texttt{PREDICT\_VULN}, \texttt{PREDICT\_SAFE}\}$.
+
+  $\mathcal{A} = \{0,1,2\}$ corresponding to  
+   {READ_NEXT,PREDICT_VULN, PREDICT_SAFE}.
 
 - **Reward Function ($R$):**  
+
   Calibrated for the "Light PPO" (Honest Auditor) to prioritize safe-class identification:
 
-$$
-R(s,a) =
-\begin{cases}
--0.12 & a = \texttt{READ\_NEXT} \\
-+7.0 & a = \texttt{PREDICT\_SAFE} \land y = \text{Safe} \\
-+0.5 & a = \texttt{PREDICT\_VULN} \land y = \text{Vuln} \\
--10.0 & a = \texttt{PREDICT\_VULN} \land y = \text{Safe} \\
--4.0 & a = \texttt{PREDICT\_SAFE} \land y = \text{Vuln}
-\end{cases}
-$$
-
----
+  
+  R(s,a) =
+           -0.12 & if a = READ_NEXT\
+           +7.0 & if a = PREDICT_SAFE ^ y=Safe\
+           +0.5 & if a = PREDICT_VULN ^ y = Vuln\
+           -10.0 & if a = PREDICT_VULN ^ y = Safe\
+           -4.0 & if a= PREDICT_SAFE ^ y = Vuln\
 
 ## 📊 Evaluation & Results
 
